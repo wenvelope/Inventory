@@ -44,7 +44,7 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
-    def lifecycle_version = "2.3.1"
+    def lifecycle_version = "2.5.1"
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     // LiveData
@@ -52,7 +52,7 @@ dependencies {
     // 仅Lifecycles (没有 ViewModel 或 LiveData)
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
 
-    def room_version = "2.3.0"
+    def room_version = "2.4.3"
 
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
