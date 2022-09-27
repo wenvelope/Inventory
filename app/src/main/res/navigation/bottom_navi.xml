@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navi"
+    app:startDestination="@id/scanFragment">
+
+    <fragment
+        android:id="@+id/funFragment"
+        android:name="com.example.inventory.ui.FunFragment"
+        android:label="FunFragment"
+        tools:layout="@layout/fragment_fun"/>
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="com.example.inventory.ui.ScanFragment"
+        android:label="ScanFragment"
+        tools:layout="@layout/fragment_scan"/>
+    <fragment
+        android:id="@+id/mineFragment"
+        android:name="com.example.inventory.ui.MineFragment"
+        android:label="MineFragment"
+        tools:layout="@layout/fragment_mine"/>
+</navigation>

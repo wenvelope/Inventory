@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
             button.setOnClickListener {
                 val username =usernameEdit.text.toString()
                 val password = passwordEdit.text.toString()
-                if(username.isNullOrEmpty()||password.isNullOrEmpty()){
+                if(username.isEmpty()||password.isEmpty()){
                     "用户名或者密码为空".showToast()
                 }else{
                     lifecycleScope.launch {
