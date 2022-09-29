@@ -8,9 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inventory.MyApplication
 import com.example.inventory.R
+import com.example.inventory.adapter.MaterialAdapter
 import com.example.inventory.databinding.FragmentScanBinding
+import com.example.inventory.model.HomeViewModel
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
@@ -20,6 +24,7 @@ import com.permissionx.guolindev.PermissionX
 class ScanFragment : Fragment() {
     private lateinit var mBinding:FragmentScanBinding
     private lateinit var fatherInstance:HomeActivity
+    val mModel:HomeViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +71,8 @@ class ScanFragment : Fragment() {
         mBinding.scanButton.setOnClickListener {
             scan()
         }
+        mBinding.MaterialRecyclerView.layoutManager = LinearLayoutManager(fatherInstance)
+        mBinding.MaterialRecyclerView.adapter = MaterialAdapter(mModel.materialList)
 
     }
 
