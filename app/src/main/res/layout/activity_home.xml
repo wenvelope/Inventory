@@ -10,7 +10,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#8DEEEE"
         tools:context=".ui.HomeActivity">
 
 
@@ -30,7 +29,7 @@
             android:id="@+id/bottom_navi"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="#00668B"
+            android:background="#DCDCDC"
             app:menu="@menu/bottom_menu"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

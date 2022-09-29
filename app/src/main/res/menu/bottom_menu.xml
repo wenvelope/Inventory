@@ -2,14 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/scanFragment"
+        android:icon="@drawable/ic_add"
         android:title="入库"
         />
     <item
         android:id="@+id/funFragment"
+        android:icon="@drawable/ic_fun"
         android:title="功能"
         />
     <item
         android:id="@+id/mineFragment"
+        android:icon="@drawable/ic_mine"
         android:title="我的"
         />
 

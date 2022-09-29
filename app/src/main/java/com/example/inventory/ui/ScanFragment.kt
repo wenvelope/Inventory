@@ -1,21 +1,33 @@
 package com.example.inventory.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.example.inventory.MyApplication
 import com.example.inventory.R
 import com.example.inventory.databinding.FragmentScanBinding
+import com.huawei.hms.hmsscankit.ScanUtil
+import com.huawei.hms.ml.scan.HmsScan
+import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
+import com.permissionx.guolindev.PermissionX
 
 
 class ScanFragment : Fragment() {
     private lateinit var mBinding:FragmentScanBinding
+    private lateinit var fatherInstance:HomeActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fatherInstance = context as HomeActivity
     }
 
     override fun onCreateView(
@@ -28,6 +40,32 @@ class ScanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+
+    private fun scan(){
+        val option = HmsScanAnalyzerOptions.Creator().setHmsScanTypes(HmsScan.ALL_SCAN_TYPE).create()
+        PermissionX.init(fatherInstance)
+            .permissions(android.Manifest.permission.CAMERA,android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            .request{ allgranted,grantedlist,deniedlist->
+                if (!allgranted){
+                    Toast.makeText(MyApplication.context,"部分功能无法使用", Toast.LENGTH_SHORT).show()
+                }else{
+                    ScanUtil.startScan(
+                        fatherInstance,200,option
+                    )
+                }
+            }
+    }
+
+    private fun initView(){
+        mBinding.scanBg.setOnClickListener {
+            scan()
+        }
+        mBinding.scanButton.setOnClickListener {
+            scan()
+        }
 
     }
 
