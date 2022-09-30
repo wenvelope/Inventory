@@ -84,8 +84,7 @@ class ScanFragment : Fragment() {
             }
         }
 
-
-
+        mModel.getAllLocalMaterial()
     }
 
 

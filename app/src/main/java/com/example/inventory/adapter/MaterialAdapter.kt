@@ -1,20 +1,21 @@
 package com.example.inventory.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inventory.R
-import com.example.inventory.bean.MaterialBean
 import com.example.inventory.databinding.MaterialItemBinding
 import com.example.inventory.room.Material
 
 class MaterialAdapter(val materialList: List<Material>):RecyclerView.Adapter<MaterialAdapter.MaterialHolder>() {
     inner class MaterialHolder(val mBinding:MaterialItemBinding): RecyclerView.ViewHolder(mBinding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(position: Int){
             mBinding.apply {
-                materialName.text = materialList[position].name
-                materialUid.text = materialList[position].uid
+                materialName.text = materialList[position].describe
+                materialUid.text = materialList[position].name+" "+materialList[position].uid
                 materialState.text = if(materialList[position].state=="1") "已入库" else "未入库"
             }
         }

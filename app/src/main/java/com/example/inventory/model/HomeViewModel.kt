@@ -1,15 +1,12 @@
 package com.example.inventory.model
 
-import android.service.autofill.Transformation
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.inventory.MyApplication
-import com.example.inventory.bean.MaterialBean
 import com.example.inventory.repository.Repository
 import com.example.inventory.room.InventoryDataBase
 import com.example.inventory.room.Material
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HomeViewModel:ViewModel() {
     private val dataBase:InventoryDataBase by lazy { InventoryDataBase.getDataBase(MyApplication.context)}
@@ -37,8 +34,9 @@ class HomeViewModel:ViewModel() {
         _materialData.value = _materialData
     }
 
-    fun insertMaterial(vararg material: Material){
-        repository.insertMaterial(*material)
+    suspend fun insertOneMaterial(material: Material):Boolean{
+        return repository.insertMaterial(material)
     }
+
 
 }

@@ -4,12 +4,15 @@ import androidx.lifecycle.liveData
 import com.example.inventory.room.Material
 import com.example.inventory.room.MaterialDao
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 
 class Repository(private val materialDao: MaterialDao) {
-    fun insertMaterial(vararg material: Material){
-        material.forEach {
-            materialDao.insertMaterial(it)
+
+    fun insertMaterial( material: Material):Boolean{
+        return if(selectOneMaterial(material.uid).isEmpty()){
+            materialDao.insertMaterial(material)
+            true
+        }else{
+            false
         }
     }
 
@@ -18,4 +21,9 @@ class Repository(private val materialDao: MaterialDao) {
             emit(it)
         }
     }
+
+    fun selectOneMaterial(uid:String):List<Material>{
+        return materialDao.selectOneMaterialByUid(uid)
+    }
+
 }

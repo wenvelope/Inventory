@@ -13,4 +13,7 @@ interface MaterialDao {
     @Query("select * from materials")
     fun selectAllMessages(): Flow<List<Material>>
 
+    @Query("select * from materials where uid = :uid")
+    fun selectOneMaterialByUid(uid:String):List<Material>
+
 }
