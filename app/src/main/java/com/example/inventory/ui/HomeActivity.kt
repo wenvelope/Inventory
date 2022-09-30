@@ -1,7 +1,6 @@
 package com.example.inventory.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
@@ -10,17 +9,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.inventory.AppManager
-import com.example.inventory.MainActivity
-import com.example.inventory.MyApplication
-import com.example.inventory.R
+import com.example.inventory.*
 import com.example.inventory.databinding.ActivityHomeBinding
 import com.example.inventory.model.HomeViewModel
 import com.example.inventory.spread.showToast
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
     private lateinit var mBinding:ActivityHomeBinding
     private val mModel:HomeViewModel by viewModels()
 
@@ -30,14 +26,13 @@ class HomeActivity : AppCompatActivity() {
         val naviHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val naviHostController = naviHostFragment.findNavController()
         mBinding.bottomNavi.setupWithNavController(naviHostController)
-
-
         AppManager.apply {
-            finishActivity(MainActivity::class.java)
-            finishActivity(LoginActivity::class.java)
+            finishOneActivity(MainActivity::class.java.name)
+            finishOneActivity(LoginActivity::class.java.name)
         }
-
     }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

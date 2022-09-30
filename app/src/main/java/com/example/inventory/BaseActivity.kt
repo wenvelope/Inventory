@@ -8,4 +8,9 @@ open class BaseActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppManager.addActivity(this)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        AppManager.removeActivity(this)
+    }
 }

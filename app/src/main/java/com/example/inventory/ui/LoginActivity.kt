@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.example.inventory.AppManager
+import com.example.inventory.BaseActivity
 import com.example.inventory.MainActivity
 import com.example.inventory.R
 import com.example.inventory.databinding.ActivityLoginBinding
@@ -18,16 +19,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
     private lateinit var mBinding:ActivityLoginBinding
     private lateinit var sp:SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppManager.finishOneActivity(MainActivity::class.java.name)
+
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_login)
         sp = getSharedPreferences("TOKEN", Context.MODE_PRIVATE)
-
-        AppManager.finishActivity(MainActivity::class.java)
 
 
         mBinding.apply {
