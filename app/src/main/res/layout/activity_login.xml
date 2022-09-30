@@ -11,28 +11,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.LoginActivity">
-
-        <EditText
-            android:id="@+id/username_edit"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/username_edit_card"
             android:layout_width="250dp"
             android:layout_height="60dp"
+            app:cardCornerRadius="15dp"
+            android:elevation="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.35"
-            />
+            >
+            <EditText
+                android:id="@+id/username_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:hint="email"
 
-        <EditText
-            android:id="@+id/password_edit"
+                 />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/password_edit_card"
             android:layout_width="250dp"
             android:layout_height="60dp"
-            android:inputType="textPassword"
+            app:cardCornerRadius="15dp"
+            android:elevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/username_edit"
-            app:layout_constraintVertical_bias="0.181" />
+            app:layout_constraintTop_toBottomOf="@id/username_edit_card"
+            app:layout_constraintVertical_bias="0.181"
+            >
+            <EditText
+                android:id="@+id/password_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPassword"
+                android:hint="password"
+                />
+
+        </androidx.cardview.widget.CardView>
+
 
         <Button
             android:id="@+id/button"
@@ -44,7 +67,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password_edit"
+            app:layout_constraintTop_toBottomOf="@id/password_edit_card"
             app:layout_constraintVertical_bias="0.181"
             android:background="@drawable/bg_login"
             />

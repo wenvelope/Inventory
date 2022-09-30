@@ -5,8 +5,7 @@ import com.example.inventory.MyApplication
 import com.example.inventory.repository.Repository
 import com.example.inventory.room.InventoryDataBase
 import com.example.inventory.room.Material
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+
 
 class HomeViewModel:ViewModel() {
     private val dataBase:InventoryDataBase by lazy { InventoryDataBase.getDataBase(MyApplication.context)}
@@ -20,7 +19,6 @@ class HomeViewModel:ViewModel() {
     fun setRepositoryArea(area:String){
         _repositoryArea.value = area
     }
-
 
     val materialList = mutableListOf<Material>()
 
