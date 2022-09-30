@@ -7,11 +7,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.inventory.R
 import com.example.inventory.bean.MaterialBean
 import com.example.inventory.databinding.MaterialItemBinding
+import com.example.inventory.room.Material
 
-class MaterialAdapter(val materialList: List<MaterialBean>):RecyclerView.Adapter<MaterialAdapter.MaterialHolder>() {
+class MaterialAdapter(val materialList: List<Material>):RecyclerView.Adapter<MaterialAdapter.MaterialHolder>() {
     inner class MaterialHolder(val mBinding:MaterialItemBinding): RecyclerView.ViewHolder(mBinding.root) {
         fun bind(position: Int){
-            // TODO: bind 
+            mBinding.apply {
+                materialName.text = materialList[position].name
+                materialUid.text = materialList[position].uid
+                materialState.text = if(materialList[position].state=="1") "已入库" else "未入库"
+            }
         }
     }
 

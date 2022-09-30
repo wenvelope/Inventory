@@ -1,5 +1,6 @@
 package com.example.inventory.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -64,6 +65,7 @@ class ScanFragment : Fragment() {
             }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initView(){
         mBinding.scanBg.setOnClickListener {
             scan()
@@ -73,6 +75,16 @@ class ScanFragment : Fragment() {
         }
         mBinding.MaterialRecyclerView.layoutManager = LinearLayoutManager(fatherInstance)
         mBinding.MaterialRecyclerView.adapter = MaterialAdapter(mModel.materialList)
+
+        activity?.apply {
+            mModel.materialData.observe(this){
+                mModel.materialList.clear()
+                mModel.materialList.addAll(it)
+                mBinding.MaterialRecyclerView.adapter?.notifyDataSetChanged()
+            }
+        }
+
+
 
     }
 
