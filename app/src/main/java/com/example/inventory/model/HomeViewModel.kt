@@ -20,6 +20,9 @@ class HomeViewModel:ViewModel() {
         _repositoryArea.value = area
     }
 
+    val name = MutableLiveData<String>()
+
+
     val materialList = mutableListOf<Material>()
 
     private val _materialData = MutableLiveData<Any>()

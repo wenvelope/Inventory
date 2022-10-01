@@ -24,7 +24,7 @@ class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppManager.finishOneActivity(MainActivity::class.java.name)
+        AppManager.finishOtherActivity(LoginActivity::class.java.name)
 
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_login)
         sp = getSharedPreferences("TOKEN", Context.MODE_PRIVATE)
