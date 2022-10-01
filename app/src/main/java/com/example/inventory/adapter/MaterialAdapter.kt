@@ -14,7 +14,7 @@ class MaterialAdapter(val materialList: List<Material>):RecyclerView.Adapter<Mat
         @SuppressLint("SetTextI18n")
         fun bind(position: Int){
             mBinding.apply {
-                materialName.text = materialList[position].describe
+                materialName.text = materialList[position].description
                 materialUid.text = materialList[position].name+" "+materialList[position].uid
                 materialState.text = if(materialList[position].state=="1") "已入库" else "未入库"
             }

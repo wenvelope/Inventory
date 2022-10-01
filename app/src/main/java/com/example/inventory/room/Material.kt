@@ -19,7 +19,7 @@ data class Material(
     //类型
     val category: String,
     //描述
-    val describe: String? = "无",
+    val description: String? = "无",
     //生产日期
     val born: String
 )

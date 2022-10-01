@@ -4,4 +4,10 @@
     <string name="saoyisao">扫一扫</string>
     <string name="area_default">未设置</string>
     <string name="area_fore">当前选择入库库位：</string>
+    <string-array name="planets_array">
+        <item>仓库A</item>
+        <item>仓库B</item>
+        <item>仓库C</item>
+        <item>仓库D</item>
+    </string-array>
 </resources>

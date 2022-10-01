@@ -4,6 +4,7 @@ import com.example.inventory.spread.addLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.await
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -11,8 +12,10 @@ import kotlin.coroutines.suspendCoroutine
 object InventoryNetWork {
 
     private val userService = ServiceCreator.create(UserService::class.java)
+    private val materialService = ServiceCreator.create(MaterialService::class.java)
 
     suspend fun getUserId(name:String,pwd:String) = userService.getUserId(name,pwd).await()
+    suspend fun addMaterial(materialJson:String) = materialService.addMaterial(materialJson).await()
 
 
 
