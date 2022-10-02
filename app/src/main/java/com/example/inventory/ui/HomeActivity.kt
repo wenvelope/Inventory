@@ -17,6 +17,7 @@ import com.example.inventory.*
 import com.example.inventory.databinding.ActivityHomeBinding
 import com.example.inventory.model.HomeViewModel
 import com.example.inventory.network.InventoryNetWork
+import com.example.inventory.repository.Repository
 import com.example.inventory.room.Material
 import com.example.inventory.spread.showToast
 import com.google.gson.Gson
@@ -63,16 +64,20 @@ class HomeActivity : BaseActivity() {
                     val char = hmsScan?.getOriginalValue()?.split(" ")
                     char?.let {
                         val area = sp.getString("AREA","0")
-                        if(char[char.size-1]=="weifangzhou"&&char.size==8){
-                            val temp = Material(char[0],char[1],"1",char[2],area!!,char[4],char[5],char[6])
+                        if(char[char.size-1]=="weifangzhou"&&char.size==7){
+                            val temp = Material(char[0],char[1],"1",char[2],area!!,char[3],char[4],char[5])
                             lifecycleScope.launch(Dispatchers.IO){
-                                if(mModel.insertOneMaterial(temp)){
-                                    Gson().apply {
-                                        InventoryNetWork.addMaterial(this.toJson(temp))
+                                when(val result =Repository.checkMaterial(char[0])){
+                                    "未入库"->{
+                                        Gson().apply {
+                                            InventoryNetWork.addMaterial(this.toJson(temp))
+                                        }
+                                        mModel.insertOneMaterial(temp)
+                                        handler.post { "入库成功".showToast() }
                                     }
-                                    handler.post { "入库成功".showToast() }
-                                }else{
-                                    handler.post { "已存在，无需重复入库".showToast() }
+                                    else->{
+                                        handler.post { result.showToast() }
+                                    }
                                 }
                             }
                         }else{

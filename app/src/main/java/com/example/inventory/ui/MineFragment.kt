@@ -9,10 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.inventory.R
 import com.example.inventory.databinding.FragmentMineBinding
 import com.example.inventory.model.HomeViewModel
+import com.example.inventory.repository.Repository
+import com.example.inventory.spread.showToast
 import com.example.inventory.spread.startActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MineFragment : Fragment() {
@@ -52,6 +57,19 @@ class MineFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launch (Dispatchers.IO){
+            val s = sp.getString("AREA","0")
+            s?.let {
+                val result = Repository.selectAllByRe(it).getOrNull()
+                if(result!=null){
+                    mBinding.areaNum.text = result.materialList.size.toString()
+                }else{
+                    "网络错误".showToast()
+                }
+            }
+        }
+
     }
 
 }
