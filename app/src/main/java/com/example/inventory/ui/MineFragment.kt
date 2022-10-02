@@ -3,6 +3,8 @@ package com.example.inventory.ui
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +26,7 @@ class MineFragment : Fragment() {
     private lateinit var mBinding:FragmentMineBinding
     private val mModel by activityViewModels<HomeViewModel>()
     private lateinit var sp:SharedPreferences
+    private lateinit var mHandler:Handler
     override fun onAttach(context: Context) {
         super.onAttach(context)
         sp = context.getSharedPreferences("TOKEN",Context.MODE_PRIVATE)
@@ -31,6 +34,7 @@ class MineFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mHandler = Handler(Looper.getMainLooper())
     }
 
     override fun onCreateView(
@@ -65,7 +69,7 @@ class MineFragment : Fragment() {
                 if(result!=null){
                     mBinding.areaNum.text = result.materialList.size.toString()
                 }else{
-                    "网络错误".showToast()
+                    mHandler.post { "网络错误".showToast() }
                 }
             }
         }
