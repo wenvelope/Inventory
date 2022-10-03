@@ -10,11 +10,13 @@ import android.widget.Adapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.inventory.OutStockActivity
 import com.example.inventory.R
 import com.example.inventory.StockActivity
 import com.example.inventory.adapter.FunAdapter
 import com.example.inventory.adapter.FunItemDecoration
 import com.example.inventory.databinding.FragmentFunBinding
+import com.example.inventory.model.StockOutViewModel
 import com.example.inventory.spread.showToast
 import com.example.inventory.spread.startActivity
 
@@ -63,9 +65,17 @@ class FunFragment : Fragment() {
             mBinding.funRecyclerView.adapter = FunAdapter(funList).also {
                 it.onFunItemClickListener = object:FunAdapter.FunItemOnClickListener{
                     override fun onClick(position: Int) {
-                        startActivity<StockActivity> {
-                            putExtra("uid",position-4)
+                        when(position){
+                            0->{
+                                startActivity<OutStockActivity> { }
+                            }
+                            else->{
+                                startActivity<StockActivity> {
+                                    putExtra("uid",position-4)
+                                }
+                            }
                         }
+
                     }
 
                 }

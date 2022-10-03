@@ -27,6 +27,7 @@ class Repository(private val materialDao: MaterialDao) {
     fun selectOneMaterial(uid:String):List<Material>{
         return materialDao.selectOneMaterialByUid(uid)
     }
+
     companion object{
         suspend fun checkMaterial(uid:String):String{
             val result = try {
