@@ -23,3 +23,9 @@ data class Material(
     //生产日期
     val born: String
 )
+
+data class MaterialOut(
+    val uid:String,
+    val state:String,
+    val repoBeanUid: String
+)

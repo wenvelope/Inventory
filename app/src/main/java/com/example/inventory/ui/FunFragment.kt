@@ -69,6 +69,18 @@ class FunFragment : Fragment() {
                             0->{
                                 startActivity<OutStockActivity> { }
                             }
+                            1->{
+
+                            }
+                            2->{
+
+                            }
+                            3->{
+
+                            }
+                            4->{
+
+                            }
                             else->{
                                 startActivity<StockActivity> {
                                     putExtra("uid",position-4)

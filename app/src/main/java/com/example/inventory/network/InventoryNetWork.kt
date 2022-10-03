@@ -18,6 +18,7 @@ object InventoryNetWork {
     suspend fun addMaterial(materialJson:String) = materialService.addMaterial(materialJson).await()
     suspend fun checkMaterial(materialUid:String) = materialService.checkMaterial(materialUid).await()
     suspend fun selectByCategory(category:String) = materialService.selectByCategory(category).await()
+    suspend fun takeOutById(uid:String,repUid:String) = materialService.takeOutById(uid,repUid).await()
 
 
 

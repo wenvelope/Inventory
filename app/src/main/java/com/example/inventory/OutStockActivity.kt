@@ -1,9 +1,9 @@
 package com.example.inventory
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
@@ -11,9 +11,12 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.inventory.adapter.MaterialAdapter
 import com.example.inventory.databinding.ActivityOutStockBinding
 import com.example.inventory.model.StockOutViewModel
+import com.example.inventory.repository.Repository
 import com.example.inventory.room.Material
+import com.example.inventory.spread.showToast
 import com.huawei.hms.hmsscankit.ScanUtil
 import com.huawei.hms.ml.scan.HmsScan
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions
@@ -26,6 +29,7 @@ class OutStockActivity : BaseActivity() {
     private val mModel:StockOutViewModel by viewModels()
     private lateinit var sp:SharedPreferences
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sp = getSharedPreferences("TOKEN",Context.MODE_PRIVATE)
@@ -34,6 +38,15 @@ class OutStockActivity : BaseActivity() {
             scan()
         }
         mBinding.outRecyclerview.layoutManager = LinearLayoutManager(this)
+        mBinding.outRecyclerview.adapter = MaterialAdapter(mModel.outMaterialList)
+
+        mModel.outMaterial.observe(this){
+            mModel.outMaterialList.clear()
+            mModel.outMaterialList.addAll(it)
+            mBinding.outRecyclerview.adapter?.notifyDataSetChanged()
+        }
+
+        mModel.selectOutMaterial()
 
     }
 
@@ -52,8 +65,13 @@ class OutStockActivity : BaseActivity() {
                         if(char[char.size-1]=="weifangzhou"&&char.size==7){
                             val temp = Material(char[0],char[1],"0",char[2],area!!,char[3],char[4],char[5])
                             lifecycleScope.launch(Dispatchers.IO){
-                                if(mModel.insertMaterial(temp)){
-                                    // TODO: 出库逻辑
+                                val end =  Repository.takeOutById(char[0],area)
+                                if(end){
+                                    if(!mModel.insertMaterial(temp)){
+                                        mModel.takeLocalOutById(char[0],area)
+                                    }
+                                }else{
+                                    "该物件未曾入库或网络异常".showToast()
                                 }
                             }
                         }

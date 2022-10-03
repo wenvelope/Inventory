@@ -1,5 +1,7 @@
 package com.example.inventory.model
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.inventory.MyApplication
 import com.example.inventory.repository.Repository
@@ -19,4 +21,23 @@ class StockOutViewModel: ViewModel() {
     fun insertMaterial(material: Material):Boolean{
         return repository.insertMaterial(material)
     }
+
+    private val _outMaterial = MutableLiveData<Any>()
+
+    val outMaterial = Transformations.switchMap(_outMaterial){
+        repository.selectAllLocalOutMaterial()
+    }
+
+    fun selectOutMaterial(){
+        _outMaterial.value = _outMaterial.value
+    }
+
+    val outMaterialList = mutableListOf<Material>()
+
+
+    fun takeLocalOutById(uid: String,repUid:String){
+        repository.takeLocalOutById(uid,repUid)
+    }
+
+
 }

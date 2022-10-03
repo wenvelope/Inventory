@@ -10,11 +10,12 @@ interface MaterialService {
     @GET("/material/add")
     fun addMaterial(@Query("itemMessage") materialJson:String): Call<ResponseBody>
 
-    @GET("/material/checkId")
+    @GET("/material/checkById")
     fun checkMaterial(@Query("itemId") uid:String):Call<ResponseBody>
 
     @GET("material/findByCategory")
     fun selectByCategory(@Query("itemCategory") category:String):Call<MaterialByRe>
 
-
+    @GET("material/takeOutById")
+    fun takeOutById(@Query("itemId") uid:String,@Query("itemRepoBeanId") repoId:String):Call<ResponseBody>
 }
