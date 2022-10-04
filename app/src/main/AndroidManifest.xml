@@ -26,6 +26,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".CheckActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StockLimitActivity"
+            android:exported="false" />
+        <activity
             android:name=".BatchSelectActivity"
             android:exported="false" />
         <activity

@@ -13,8 +13,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inventory.adapter.MaterialAdapter
-import com.example.inventory.databinding.ActivityOutStockBinding
-import com.example.inventory.model.StockOutViewModel
+import com.example.inventory.databinding.ActivityCheckBinding
+import com.example.inventory.model.CheckViewModel
 import com.example.inventory.repository.Repository
 import com.example.inventory.room.Material
 import com.example.inventory.spread.showToast
@@ -25,35 +25,61 @@ import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class OutStockActivity : BaseActivity() {
-    private lateinit var mBinding:ActivityOutStockBinding
-    private val mModel:StockOutViewModel by viewModels()
+class CheckActivity : BaseActivity() {
+    private lateinit var mBinding: ActivityCheckBinding
+    private val  mModel: CheckViewModel by viewModels()
+    private var isStarted = false
     private lateinit var sp:SharedPreferences
-    private lateinit var handler: Handler
+    private lateinit var handler:Handler
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_check)
         sp = getSharedPreferences("TOKEN",Context.MODE_PRIVATE)
-        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_out_stock)
-
+        mBinding.scanButton.isEnabled  = false
         handler = Handler(mainLooper)
-        mBinding.outButton.setOnClickListener {
+        mBinding.endButton.setOnClickListener {
+            isStarted = false
+            mBinding.scanButton.isEnabled = false
+        }
+        mBinding.startButton.setOnClickListener {
+                isStarted = true
+                mBinding.scanButton.isEnabled = true
+        }
+        mBinding.scanButton.setOnClickListener {
             scan()
         }
-        mBinding.outRecyclerview.layoutManager = LinearLayoutManager(this)
-        mBinding.outRecyclerview.adapter = MaterialAdapter(mModel.outMaterialList)
 
-        mModel.outMaterial.observe(this){
-            mModel.outMaterialList.clear()
-            mModel.outMaterialList.addAll(it)
-            mBinding.outRecyclerview.adapter?.notifyDataSetChanged()
+        mBinding.list.layoutManager = LinearLayoutManager(this)
+        mBinding.list.adapter = MaterialAdapter(mModel.materialList)
+
+        val area = sp.getString("AREA","0")
+
+        lifecycleScope.launch(Dispatchers.IO){
+            if(area!="0"){
+                val materialListByRe = mModel.selectMaterialListByRe(area!!).getOrNull()
+                materialListByRe?.let {
+                    mModel.materialList.clear()
+                    mModel.materialList.addAll(it.materialList)
+                    mBinding.list.post {
+                        mBinding.list.adapter?.notifyDataSetChanged()
+                    }
+                    mModel.maxSize.postValue(mModel.materialList.size.toString())
+                }
+            }
         }
 
-        mModel.selectOutMaterial()
+        mModel.maxSize.observe(this){
+            val s = it.toInt()-mModel.materialList.size
+            mBinding.detail.text = "$s/$it"
+        }
+
 
     }
 
+
+    @SuppressLint("NotifyDataSetChanged")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode!= RESULT_OK || data==null){
@@ -67,16 +93,14 @@ class OutStockActivity : BaseActivity() {
                     char?.let {
                         val area = sp.getString("AREA","0")
                         if(char[char.size-1]=="weifangzhou"&&char.size==7){
-                            val temp = Material(char[0],char[1],"0",char[2],area!!,char[3],char[4],char[5])
-                            lifecycleScope.launch(Dispatchers.IO){
-                                val end =  Repository.takeOutById(char[0],area)
-                                if(end){
-                                    if(!mModel.insertMaterial(temp)){
-                                        mModel.takeLocalOutById(char[0],area)
-                                    }
-                                    handler.post { "出库成功".showToast() }
+                            val temp = Material(char[0],char[1],"1",char[2],area!!,char[3],char[4],char[5])
+                            lifecycleScope.launch{
+                                if(mModel.materialList.remove(temp)){
+                                    mModel.maxSize.value = mModel.maxSize.value
+                                    mBinding.list.adapter?.notifyDataSetChanged()
+                                    "成功".showToast()
                                 }else{
-                                    handler.post { "该物件未曾入库或网络异常".showToast()  }
+                                    "已出库或者不在本仓库内".showToast()
                                 }
                             }
                         }
@@ -85,6 +109,7 @@ class OutStockActivity : BaseActivity() {
 
             }
         }
+
     }
 
     private fun scan(){
@@ -101,4 +126,5 @@ class OutStockActivity : BaseActivity() {
                 }
             }
     }
+
 }
