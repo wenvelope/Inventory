@@ -23,4 +23,9 @@ interface MaterialDao {
     @Update(entity = Material::class)
     fun takeLocalOutById(repOut:MaterialOut)
 
+    @Query("select * from materials where inboundNum = :num")
+    fun selectAllByInboundNum(num:String):List<Material>
+
+
+
 }

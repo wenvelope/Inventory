@@ -10,6 +10,7 @@ import android.widget.Adapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.inventory.BatchSelectActivity
 import com.example.inventory.OutStockActivity
 import com.example.inventory.R
 import com.example.inventory.StockActivity
@@ -73,7 +74,7 @@ class FunFragment : Fragment() {
 
                             }
                             2->{
-
+                                startActivity<BatchSelectActivity> {  }
                             }
                             3->{
 

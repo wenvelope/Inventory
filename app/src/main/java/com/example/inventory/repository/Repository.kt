@@ -42,6 +42,11 @@ class Repository(private val materialDao: MaterialDao) {
         materialDao.takeLocalOutById(repOut)
     }
 
+
+    fun selectAllByInBoundNum(num:String) = liveData(Dispatchers.IO) {
+        emit(materialDao.selectAllByInboundNum(num))
+    }
+
     companion object{
         suspend fun checkMaterial(uid:String):String{
             val result = try {

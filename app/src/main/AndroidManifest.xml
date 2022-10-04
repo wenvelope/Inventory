@@ -26,6 +26,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".BatchSelectActivity"
+            android:exported="false" />
+        <activity
             android:name=".OutStockActivity"
             android:exported="false" />
         <activity
